@@ -1,0 +1,59 @@
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+  <cmail-header></cmail-header>
+  <main class="mdl-layout__content">
+    <div class="page-content">
+      <div class="mdl-grid">
+        <form [formGroup]="formCadastro" (ngSubmit)="handleCadastrarUsuario()">
+          <div class="mdl-card__actions">
+            <cmail-form-group [campo]="formCadastro.get('nome')" >
+              <input formControlName="nome" autofocus  type="text" name="nome" id="nome" placeholder=" "  class="mdl-textfield__input"  >
+              <span *ngIf="formCadastro.get('nome').errors.required" class="mdl-textfield__error">campo obrigatório!</span>
+              <span *ngIf="formCadastro.get('nome').errors.minlength" class="mdl-textfield__error">
+                Você preencheu {{formCadastro.get('nome').errors.minlength.actualLength }} 
+                caracteres de {{formCadastro.get('nome').errors.minlength.requiredLength }}!</span>
+            </cmail-form-group>
+
+            <cmail-form-group [campo]="formCadastro.get('userName')" >
+              <input formControlName="userName"   type="text" name="userName" 
+              id="userName" placeholder=" "  class="mdl-textfield__input"  >
+              <span class="mdl-textfield__error">campo obrigatório!</span>
+            </cmail-form-group>
+
+            <cmail-form-group [campo]="formCadastro.get('senha')" >
+              <input formControlName="senha"   type="password" name="senha" 
+              id="senha" placeholder=" "  class="mdl-textfield__input"  >
+              <span class="mdl-textfield__error">campo obrigatório!</span>
+            </cmail-form-group>
+
+            <cmail-form-group [campo]="formCadastro.get('avatar')" >
+              <input formControlName="avatar"   type="text" name="avatar" 
+              id="avatar" placeholder=" "  class="mdl-textfield__input"  >
+              <span class="mdl-textfield__error" *ngIf="formCadastro.get('avatar').hasError('required')" >
+                campo obrigatório!
+              </span>
+              <span *ngIf="formCadastro.get('avatar').status === 'PENDING'" >
+                  PENDENTE!
+                </span>
+                <span *ngIf="formCadastro.get('avatar').status === 'VALID'" >
+                    <img src="{{formCadastro.get('avatar').value}}">
+                </span>
+                <span class="mdl-textfield__error" *ngIf="formCadastro.get('avatar').hasError('urlInvalida')" >
+                  ERRO NA URL
+                  </span>
+            </cmail-form-group>
+
+            <cmail-form-group [campo]="formCadastro.get('telefone')" >
+              <input formControlName="telefone"   type="text" name="telefone" 
+              id="telefone" placeholder=" "  class="mdl-textfield__input"  >
+              <span class="mdl-textfield__error">campo obrigatório!</span>
+            </cmail-form-group>
+       
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
+              Cadastrar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
