@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
+import { LocalePt } from '@angular/common/local/LocalePt';
 
 import { AppComponent } from './app.component';
 import { ModuloRoteamento } from './app-routing.module';
@@ -25,7 +26,8 @@ import { EmailService } from './services/email.service';
     HttpClientModule,
     SharedModule,
   ],
-  providers: [EmailService],
+  providers: [EmailService,
+  {provide: LOCALE_ID, useValue: 'pt'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
