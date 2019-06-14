@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { PageDataServiceService } from 'src/app/services/page-data-service.service';
 
 @Component ({
     selector: 'cmail-header',
@@ -7,6 +8,12 @@ import { Component } from "@angular/core";
 })
 export class HeaderComponent{
     private _isMenuOpen = false;
+
+    tituloDaPagina = 'CMail';
+
+    constructor(private pageService: PageDataServiceService){
+        
+    }
 
     get isMenuOpen(){
         return this._isMenuOpen

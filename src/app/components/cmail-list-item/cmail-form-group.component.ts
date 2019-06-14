@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -13,11 +13,17 @@ export class CmailListItemComponent implements OnInit {
   @Input() introducaoDoConteudo = '';
   @Input() dataDeEnvio = '';
 
-  
+  @Output('eventoVaiRemover') vaiRemover = new EventEmitter();
+
   constructor(private elemento: ElementRef) { }
 
-  ngOnInit() {
-   
+  ngOnInit() {  }
+
+  removeEmail(click: Event){
+    console.log('clicou no botao remover!');
+    if(confirm('Tem certeza?')){
+      this.vaiRemover.emit({status: 'removing'})
+    }
   }
 
 }

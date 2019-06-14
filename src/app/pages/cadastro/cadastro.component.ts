@@ -3,7 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { HttpClient, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
-import {map, catchError} from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
+import { PageDataServiceService } from 'src/app/services/page-data-service.service';
 
 @Component({
   selector: 'app-cadastro',
@@ -20,23 +21,26 @@ export class CadastroComponent implements OnInit {
     telefone: new FormControl('', [Validators.required, Validators.pattern("[0-9]{4}-?[0-9]{4}[0-9]")]),
   });
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient,
+    private pageService: PageDataServiceService) {
 
+  }
   ngOnInit() {
+    this.pageService.defineTitulo('CMail - Cadastro');
   }
 
   handleCadastrarUsuario() {
-    if(this.formCadastro.valid){
+    if (this.formCadastro.valid) {
       const userData = ""; //new User(this.formCadastro.value);
-      this.httpClient.post('http://localhost:3200',userData)
-      .subscribe(
-        () => {
-          console.log(`Cadastrado com sucesso.`);
-          this.formCadastro.reset();
-        }
-        , erro => console.error(erro)
-      )
-    }else {
+      this.httpClient.post('http://localhost:3200', userData)
+        .subscribe(
+          () => {
+            console.log(`Cadastrado com sucesso.`);
+            this.formCadastro.reset();
+          }
+          , erro => console.error(erro)
+        )
+    } else {
       this.validarTodosOsCAmposDoFormulario();
     }
   }
@@ -50,13 +54,13 @@ export class CadastroComponent implements OnInit {
     return this.httpClient.head(campoDoFormulario.value, {
       observe: 'response'
     })
-    .pipe(
-      map((response: HttpResponseBase) => {
-        return response.ok? null : { urlInvalida:true}
-      }),
-      catchError((error) => {
-        return [{urlInvalida:true}]
-      })
-    )
+      .pipe(
+        map((response: HttpResponseBase) => {
+          return response.ok ? null : { urlInvalida: true }
+        }),
+        catchError((error) => {
+          return [{ urlInvalida: true }]
+        })
+      )
   }
 }

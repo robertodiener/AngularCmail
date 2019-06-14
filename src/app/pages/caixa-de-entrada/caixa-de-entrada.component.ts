@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { EmailService } from 'src/app/services/email.service';
+import { PageDataServiceService } from 'src/app/services/page-data-service.service';
 
 @Component({
   selector: 'app-caixa-de-entrada',
@@ -9,9 +10,13 @@ import { EmailService } from 'src/app/services/email.service';
 })
 export class CaixaDeEntradaComponent implements OnInit {
 
-  constructor(private emailService: EmailService) { }
+  constructor(private emailService: EmailService,
+    private pageService: PageDataServiceService) {
+     
+     }
 
   ngOnInit() {
+    this.pageService.defineTitulo('CMail - Caixa de entrada');
     this.emailService.listar().subscribe(lista => this.emailList = lista)
   }
 
@@ -47,4 +52,15 @@ export class CaixaDeEntradaComponent implements OnInit {
         formEmail.reset();
       }
     }
+
+  handleRemoveEmail(eventoVaiRemover, emailId){
+    if(eventoVaiRemover.status === 'removing'){
+      this.emailService.deletar(emailId)
+      .subscribe(() => {
+        console.log("oioioioioioi");
+        this.emailList = this.emailList.filter(email => email.id != emailId)
+      },
+      (erro) => console.error(erro));
+    }
+  }
 }
